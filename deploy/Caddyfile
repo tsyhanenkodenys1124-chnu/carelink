@@ -1,0 +1,29 @@
+# Caddy як HTTPS-термінатор. Сам застосунок роздає і статику, і API,
+# тому проксі потрібен лише один.
+#
+# Замініть care.example.org на свій домен перед використанням.
+
+care.example.org {
+	encode zstd gzip
+
+	# Заголовки безпеки. Застосунок не тягне зовнішніх скриптів і шрифтів,
+	# тому політика вмісту може бути суворою.
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "same-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+		Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+		-Server
+	}
+
+	# Потік подій SSE не можна буферизувати: інакше сигнал про допомогу
+	# дійде до помічника із затримкою.
+	@events path /api/events
+	reverse_proxy @events 127.0.0.1:8080 {
+		flush_interval -1
+	}
+
+	reverse_proxy 127.0.0.1:8080
+}

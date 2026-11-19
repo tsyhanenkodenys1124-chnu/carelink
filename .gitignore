@@ -1,0 +1,28 @@
+# Локальні залежності та результати збірки
+web/node_modules/
+web/dist/
+*.tsbuildinfo
+
+# Локальні дані, фото та журнали
+backend/data/
+*.db
+*.db-wal
+*.db-shm
+*.log
+
+# Локальні секрети
+.env
+.env.*
+!.env.example
+
+# Інструменти та редактори
+.openai/
+.DS_Store
+Thumbs.db
+
+# Результати наскрізних тестів
+web/test-results/
+web/playwright-report/
+
+# Проміжна розмітка зведених листів: її створює e2e/contact-sheets.mjs
+docs/screens/*/zvedennya.html

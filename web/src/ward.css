@@ -1,0 +1,426 @@
+/* Екран підопічного: один великий текст, три зрозумілі дії, нічого зайвого. */
+
+.ward {
+  min-height: 100vh;
+  padding: 24px 18px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  /* Довге слово на великому масштабі не має вилазити за край екрана. */
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+
+.magnifier-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform-origin: center center;
+  transition: transform 120ms ease-out;
+}
+
+.magnifier-stage.active {
+  cursor: grab;
+  touch-action: none;
+}
+
+.magnifier-stage.active:active {
+  cursor: grabbing;
+}
+
+.ward-head {
+  text-align: center;
+}
+
+.ward-today {
+  font-size: 1.1em;
+  font-weight: 650;
+  color: var(--brand-dark);
+  margin: 0 0 4px;
+}
+
+.ward-name {
+  font-size: 1.25em;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ward-loading {
+  font-size: 1.4em;
+  text-align: center;
+  padding: 40px;
+}
+
+.ward-error {
+  text-align: center;
+  justify-content: center;
+}
+
+.ward-offline {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 620;
+  text-align: center;
+  margin: 0;
+}
+
+.ward-answer {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border-radius: 12px;
+  padding: 16px 18px;
+  font-size: 1.15em;
+  font-weight: 650;
+  text-align: center;
+  margin: 0;
+}
+
+.ward-card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 18px;
+  padding: 24px;
+  text-align: center;
+}
+
+.ward-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8em;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.ward-card h1 {
+  /* Ширина екрана обмежує розмір так само, як масштаб: на вузькому телефоні
+     масштаб 200% інакше не вміщає навіть одне слово, і воно обрізається. */
+  font-size: min(2.1em, 12vw);
+  margin: 0 0 10px;
+}
+
+.ward-time {
+  font-size: min(1.3em, 10vw);
+  font-weight: 650;
+  margin: 0 0 8px;
+}
+
+.ward-description {
+  /* Обмеження тримає порядок величин: назва > час > дія > пояснення. */
+  font-size: min(1.1em, 9vw);
+  margin: 0 0 10px;
+}
+
+.ward-photo {
+  max-width: 100%;
+  max-height: 240px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  margin: 10px auto;
+  display: block;
+}
+
+.ward-steps {
+  text-align: left;
+  font-size: min(1.1em, 9vw);
+  margin: 12px auto 0;
+  max-width: 34ch;
+  padding-left: 26px;
+}
+
+.ward-steps li {
+  margin-bottom: 8px;
+}
+
+.ward-message {
+  background: #eef4f4;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 1.05em;
+  font-weight: 620;
+  margin: 14px 0 0;
+}
+
+/* Пояснення замість кнопки, поки справу відмічати ще рано. Місце те саме, що
+   й у головної дії, щоб екран не стрибав, коли надійде час. */
+.ward-wait {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--surface);
+  color: var(--ink);
+  border: 2px dashed var(--line);
+  border-radius: 16px;
+  padding: 22px;
+  margin: 0;
+  font-size: min(1.2em, 9vw);
+  font-weight: 650;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Головна дія: найбільша ціль на екрані. */
+.ward-main {
+  width: 100%;
+  background: var(--brand);
+  color: #fff;
+  border: 0;
+  border-radius: 16px;
+  padding: 26px;
+  font-size: min(1.6em, 10vw);
+  font-weight: 750;
+  min-height: 96px;
+}
+
+.ward-main:hover {
+  background: var(--brand-dark);
+}
+
+.ward-secondary {
+  width: 100%;
+  background: var(--surface);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  font-size: min(1.2em, 9vw);
+  font-weight: 650;
+  min-height: 64px;
+}
+
+.ward-help {
+  width: 100%;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 2px solid #eccccc;
+  border-radius: 16px;
+  padding: 18px;
+  font-size: min(1.25em, 9vw);
+  font-weight: 700;
+  min-height: 72px;
+}
+
+.ward-phone {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 10px;
+  text-align: center;
+  font-size: min(1.2em, 7vw);
+  font-weight: 650;
+  color: var(--brand-dark);
+  padding: 12px;
+}
+
+.ward-phone-number {
+  white-space: nowrap;
+}
+
+.ward-foot {
+  margin-top: auto;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.ward-tools {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ward-tool {
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.95em;
+  font-weight: 600;
+  min-height: 44px;
+}
+
+.ward-tool.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+/* Великі кнопки: більше площа дотику для тих, кому важко влучати. */
+.large-controls .ward-main {
+  padding: 40px 26px;
+  font-size: min(1.9em, 11vw);
+  min-height: 132px;
+}
+
+.large-controls .ward-secondary,
+.large-controls .ward-help {
+  padding: 28px;
+  font-size: min(1.4em, 9vw);
+  min-height: 92px;
+}
+
+.large-controls .ward-tool {
+  padding: 14px 20px;
+  font-size: 1.05em;
+}
+
+/* Шрифт, зручний для дислексії: широкі проміжки та простий контур літер. */
+.font-dyslexic {
+  font-family: 'Atkinson Hyperlegible', Verdana, Tahoma, sans-serif;
+  letter-spacing: 0.04em;
+  word-spacing: 0.12em;
+}
+
+/* Палітри. Значення підібрані так, щоб контраст тексту був не нижчим за 7:1. */
+.palette-standard {
+  --paper: #f6f9f8;
+  --surface: #ffffff;
+  --ink: #17373a;
+  --brand: #125c63;
+  --brand-dark: #0b474d;
+  --line: #d9e6e5;
+}
+
+.palette-high-contrast {
+  --paper: #000000;
+  --surface: #0b0b0b;
+  --ink: #ffffff;
+  --muted: #d6d6d6;
+  --brand: #ffd24a;
+  --brand-dark: #ffc107;
+  --line: #ffffff;
+  --danger: #ff8a80;
+  --danger-soft: #2a0b09;
+  --ok: #7ef0b6;
+  --ok-soft: #062017;
+  --warning: #ffd24a;
+  --warning-soft: #241c00;
+}
+
+.palette-high-contrast .ward-main {
+  color: #000;
+}
+
+.palette-high-contrast .ward-help {
+  background: #2a0b09;
+}
+
+/* Палітра без опори на пару «червоний–зелений». */
+.palette-color-safe {
+  --paper: #f7f7f4;
+  --surface: #ffffff;
+  --ink: #1b1b1b;
+  --brand: #0b5cad;
+  --brand-dark: #08457f;
+  --line: #d5d8dd;
+  --danger: #8a4b00;
+  --danger-soft: #fdf0e0;
+  --ok: #0b5cad;
+  --ok-soft: #e6eff8;
+  --warning: #5f4b8b;
+  --warning-soft: #efecf7;
+}
+
+/* Недоступна кнопка на екрані підопічного не блякне.
+   Напівпрозорий текст на світлому тлі втрачає контраст — саме для тих,
+   кому цей екран і потрібен. Замість цього стан показується кольором. */
+.ward button:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.ward-help-sent {
+  background: var(--ok-soft);
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
+/* Панель режиму помічника на пристрої підопічного.
+   Екран підопічного може бути збільшений до 200% і з особливим шрифтом — але
+   це налаштування його зору, а біля планшета стоїть інша людина. Тому панель
+   повертає звичайний розмір і звичайні відступи між літерами. */
+.pin-dialog {
+  font-size: 1rem;
+  letter-spacing: normal;
+  word-spacing: normal;
+  line-height: 1.45;
+}
+
+.pin-dialog .pin-ward {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.pin-block {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+
+.pin-block h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.pin-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pin-list > li + li {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.pin-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.pin-time {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pin-note,
+.pin-empty {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+
+.pin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pin-actions button {
+  min-height: 44px;
+}
+
+.pin-limits {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}

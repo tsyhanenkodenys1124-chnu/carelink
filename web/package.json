@@ -1,0 +1,26 @@
+{
+  "name": "doglyad-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Інтерфейс застосунку «Догляд»: панель помічника та екран підопічного.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "check": "tsc -b --pretty false",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.1"
+  }
+}

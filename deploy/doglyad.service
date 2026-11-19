@@ -1,0 +1,34 @@
+[Unit]
+Description=Догляд — сервер застосунку
+Documentation=https://github.com/SKPdeveloper/Doglyad
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=doglyad
+Group=doglyad
+WorkingDirectory=/opt/doglyad
+EnvironmentFile=/etc/doglyad/doglyad.env
+ExecStart=/opt/doglyad/doglyad
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+
+# Обмеження прав: застосунку потрібен лише каталог зі своїми даними.
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+ReadWritePaths=/var/lib/doglyad
+
+[Install]
+WantedBy=multi-user.target
